@@ -15,6 +15,7 @@ import { Card } from '../components/Card'
 import DividerWithText from '../components/DividerWithText'
 import { Layout } from '../components/Layout'
 import { useAuth } from '../contexts/AuthContext'
+import { Navbar } from '../components/Navbar'
 
 export default function ForgotPasswordPage() {
   const history = useHistory()
@@ -25,6 +26,7 @@ export default function ForgotPasswordPage() {
 
   return (
     <Layout>
+			<Navbar />
       <Heading textAlign='center' my={12}>
         Forgot password
       </Heading>

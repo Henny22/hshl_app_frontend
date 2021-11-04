@@ -11,13 +11,14 @@ import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { Layout } from '../components/Layout'
 import { useAuth } from '../contexts/AuthContext'
+import { Navbar } from '../components/Navbar'
 
-export default function Homepage() {
+export default function Fahrpläne() {
   return (
    <Layout>
-      <Heading>Home page</Heading>
+      <Navbar />
+			<Heading>Fahrpläne</Heading>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
-
 
     </Layout>
   )

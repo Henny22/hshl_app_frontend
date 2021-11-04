@@ -8,7 +8,10 @@ import {
 } from 'react-router-dom'
 import { useAuth } from '../contexts/AuthContext'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
-import Homepage from '../pages/Homepage'
+import User from '../pages/User'
+import Campusplan from '../pages/Campusplan'
+import Fahrpläne from '../pages/Fahrpläne'
+import News from '../pages/News'
 import Loginpage from '../pages/Loginpage'
 import NotfoundPage from '../pages/NotfoundPage'
 import Profilepage from '../pages/Profilepage'
@@ -21,11 +24,15 @@ export default function AppRouter(props) {
     <>
       <Router>
         <Switch>
-          <Route exact path='/' component={Homepage} />
+          <Route exact path='/' component={User} />
+					<Route exact path='/campusplan' component={Campusplan} />
+					<Route exact path='/fahrpläne' component={Fahrpläne} />
+					<Route exact path='/news' component={News} />
           <ProtectedRoute exact path='/login' component={Loginpage} />
           <ProtectedRoute exact path='/register' component={Registerpage} />
           <ProtectedRoute exact path='/profile' component={Profilepage} />
           <ProtectedRoute exact path='/test' component={TestPage} />
+					<ProtectedRoute exact path='/logout' component={Loginpage} />
           <ProtectedRoute
             exact
             path='/forgot-password'

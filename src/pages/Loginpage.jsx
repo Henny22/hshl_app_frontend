@@ -17,6 +17,7 @@ import DividerWithText from '../components/DividerWithText'
 import { Layout } from '../components/Layout'
 import { useAuth } from '../contexts/AuthContext'
 import useMounted from '../hooks/useMounted'
+import { Navbar, NavbarLogin } from '../components/NavbarLogin'
 
 export default function Loginpage() {
   const history = useHistory()
@@ -39,7 +40,7 @@ export default function Loginpage() {
 
   function handleRedirectToOrBack() {
     // console.log(location?.state)
-    history.replace(location.state?.from ?? '/profile')
+    history.replace(location.state?.from ?? '/')
     // if (location.state) {
     //   history.replace(location.state?.from)
     // } else {
@@ -49,8 +50,9 @@ export default function Loginpage() {
 
   return (
     <Layout>
+			<NavbarLogin/>
       <Heading textAlign='center' my={12}>
-        Login
+				Login
       </Heading>
       <Card maxW='md' mx='auto' mt={4}>
         <chakra.form
@@ -122,8 +124,13 @@ export default function Loginpage() {
             >
               Sign in
             </Button>
+				<Button variant='link'>
+            <Link to='/forgot-password' >Forgot password?</Link>
+        </Button>
           </Stack>
         </chakra.form>
+
+
       </Card>
     </Layout>
   )

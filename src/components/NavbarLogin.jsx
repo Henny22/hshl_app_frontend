@@ -11,7 +11,7 @@ import { FaMoon, FaSun } from 'react-icons/fa'
 import { useAuth } from '../contexts/AuthContext'
 import Navlink from './Navlink'
 
-export function Navbar() {
+export function NavbarLogin() {
   const { toggleColorMode } = useColorMode()
   // const { logout, currentUser } = useAuth()
   const { logout, currentUser } = useAuth()
@@ -29,20 +29,17 @@ export function Navbar() {
         mx='auto'
         spacing={4}
       >
-        <Navlink to='/' name='User' size='lg' />
-				<Navlink to='/news' name='News' size='lg' />
-				<Navlink to='/fahrpläne' name='Fahrpläne' size='lg' />
-				<Navlink to='/campusplan' name='Campusplan' size='lg' />
+        <Navlink to='/' name='HSHL-App Portal' size='lg' />
         <Spacer />
-        {!currentUser && <Navlink to='/login' name='Login' />}
-        {!currentUser && <Navlink to='/register' name='Register' />}
+
+
         {currentUser && <Navlink to='/profile' name='Profile' />}
         {currentUser && (
           <Navlink
             to='/logout'
             name='Logout'
             onClick={async e => {
-
+              e.preventDefault()
               await logout()
             }}
           />
