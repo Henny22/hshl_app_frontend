@@ -9,6 +9,7 @@ import {
 import { useAuth } from '../contexts/AuthContext'
 import ForgotPasswordPage from '../pages/ForgotPasswordPage'
 import User from '../pages/User'
+import UserDetails from '../pages/UserDetails'
 import Campusplan from '../pages/Campusplan'
 import Fahrpläne from '../pages/Fahrpläne'
 import News from '../pages/News'
@@ -24,15 +25,16 @@ export default function AppRouter(props) {
     <>
       <Router>
         <Switch>
-          <Route exact path='/' component={User} />
-					<Route exact path='/campusplan' component={Campusplan} />
-					<Route exact path='/fahrpläne' component={Fahrpläne} />
-					<Route exact path='/news' component={News} />
+          <ProtectedRoute exact path='/' component={User} />
+					<ProtectedRoute exact path='/campusplan' component={Campusplan} />
+					<ProtectedRoute exact path='/fahrpläne' component={Fahrpläne} />
+					<ProtectedRoute exact path='/news' component={News} />
           <ProtectedRoute exact path='/login' component={Loginpage} />
           <ProtectedRoute exact path='/register' component={Registerpage} />
           <ProtectedRoute exact path='/profile' component={Profilepage} />
           <ProtectedRoute exact path='/test' component={TestPage} />
 					<ProtectedRoute exact path='/logout' component={Loginpage} />
+					<ProtectedRoute exact path='/user_details/:id' component={UserDetails} />
           <ProtectedRoute
             exact
             path='/forgot-password'
