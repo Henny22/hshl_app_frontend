@@ -69,6 +69,9 @@ const [bildURL, setbildURL]= useState([]);
 const [bearbeiten, setbearbeiten] = useState([]);
 const [isOpen, setIsOpen] = React.useState(false)
 const onClose = () => {
+
+news.text = document.getElementById("textarea_text").value
+news.ueberschrift = document.getElementById("textarea_ueberschrift").value
 setbearbeiten(false);
 setIsOpen(false);
 }
@@ -96,7 +99,16 @@ useEffect(() => {
   }, []);
 
 const handleChange_Url_Bild = (event) => {
+
+if(event.target.value == null || event.target.value == "" ){
+setbildURL(news.url_bild)
+}else{
 	setbildURL(event.target.value);
+}
+ }
+
+const handleChange_ueberschrift = (event) => {
+	news.ueberschrift = event.target.value;
  }
 
 
@@ -213,12 +225,12 @@ const handleChange_Url_Bild = (event) => {
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
             fontFamily={'body'} >
-             {	bearbeiten ? < Textarea value={news.ueberschrift} as={ResizeTextarea} /> :  news.ueberschrift }
+             {	bearbeiten ? < Textarea id="textarea_ueberschrift" defaultValue={news.ueberschrift} as={ResizeTextarea} /> :  news.ueberschrift }
           </Heading>
 					<Divider orientation="horizontal" />
           <Text color={'gray.500'}>
 
-				{	bearbeiten ? < Textarea value={news.text} as={ResizeTextarea} /> :  news.text }
+				{	bearbeiten ? < Textarea id="textarea_text" defaultValue={news.text} as={ResizeTextarea}/> :  news.text }
           </Text>
 
         </Stack>
