@@ -56,42 +56,8 @@ useEffect(() => {
       <Navbar />
 			<Heading>News</Heading>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
-
-<div>
-<Table variant="simple">
-  <Thead>
-    <Tr>
-      <Th >Public</Th>
-      <Th >Erstellt</Th>
-      <Th >Überschrift</Th>
-			<Th >Text</Th>
-			<Th >Bearbeiten</Th>
-    </Tr>
-			</Thead>
-				<Tbody>
-																	{ news.map(news => (
-																					<tr key={news.id}>
-																							<td align="center">{news.public.toString()}</td>
-																							<td align="center" >{news.created_time.toDate().toString() }</td>
-																							<td align="center">{news.ueberschrift}</td>
-																							<td align="center">{news.text.slice(0,150)}</td>
-																							<td align="center">
-
-																										<HStack  spacing='2'>
-																										<IconButton  icon={news.public ? <ViewOffIcon /> : <ViewIcon />} />
-																										<Link to={`/news_details/${news.id}`}>
-																										<IconButton  icon={<SettingsIcon />} />
-																										</Link>
-																										</HStack>
-
-																							</td>
-																					</tr>
-																			))
-																	}
-				</Tbody>
-			</Table>
+		<div>
 			</div>
-
     </Layout>
   )
 }
