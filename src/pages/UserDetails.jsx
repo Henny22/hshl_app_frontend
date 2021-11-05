@@ -28,7 +28,7 @@ import { Layout } from '../components/Layout'
 import { useAuth } from '../contexts/AuthContext'
 import { Navbar } from '../components/Navbar'
 import { db } from "../firebase-config";
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { ViewIcon, ViewOffIcon,ArrowBackIcon } from '@chakra-ui/icons'
 import { IconButton } from "@chakra-ui/react"
 import {
   collection,
@@ -86,7 +86,7 @@ useEffect(() => {
 
    <Layout>
       <Navbar />
-			<Heading>User Details</Heading>
+			<Heading>	<IconButton icon={<ArrowBackIcon /> } onClick={() => history.goBack()}/> User Details</Heading>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
 			<div>
 			<Center py={6}>
