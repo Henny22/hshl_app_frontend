@@ -49,7 +49,7 @@ import { useAuth } from '../contexts/AuthContext'
 import { Navbar } from '../components/Navbar'
 import ResizeTextarea from "react-textarea-autosize";
 import { db } from "../firebase-config";
-import { DeleteIcon,SettingsIcon, ViewIcon, ViewOffIcon, EditIcon,ArrowBackIcon, CheckIcon } from '@chakra-ui/icons'
+import { DeleteIcon,SettingsIcon, ViewIcon, ViewOffIcon, EditIcon,ArrowBackIcon, CheckIcon, CloseIcon } from '@chakra-ui/icons'
 import {
   collection,
   getDocs,
@@ -64,25 +64,15 @@ import { getAuth, deleteUser } from "firebase/auth";
 
 export default function News() {
 
-const [news, setNews] = useState([]);
-const [bildURL, setbildURL]= useState([]);
-const [bearbeiten, setbearbeiten] = useState([]);
-const [isOpen, setIsOpen] = React.useState(false)
-const onClose = () => {
-
-news.text = document.getElementById("textarea_text").value
-news.ueberschrift = document.getElementById("textarea_ueberschrift").value
-setbearbeiten(false);
-setIsOpen(false);
-}
-
-
-const cancelRef = React.useRef()
-
-
-const newsCollectionRef = collection(db, "News");
-const {id} = useParams()
-const history = useHistory()
+	const [news, setNews] = useState([]);
+	const [bildURL, setbildURL]= useState([]);
+	const [bearbeiten, setbearbeiten] = useState([]);
+	const [isOpen, setIsOpen] = React.useState(false)
+	const [button, setButton] = useState([]);
+	const cancelRef = React.useRef()
+	const newsCollectionRef = collection(db, "News");
+	const {id} = useParams()
+	const history = useHistory()
 
 useEffect(() => {
 	const docRef = doc(db, "News", id);
@@ -98,18 +88,51 @@ useEffect(() => {
 	})
   }, []);
 
-const handleChange_Url_Bild = (event) => {
+const onClose = (e) => {
+	if(e.target.id =='speichern_button'){
 
-if(event.target.value == null || event.target.value == "" ){
-setbildURL(news.url_bild)
-}else{
-	setbildURL(event.target.value);
+		news.text = document.getElementById("textarea_text").value
+		news.ueberschrift = document.getElementById("textarea_ueberschrift").value
+		news.url_bild = bildURL;
+		news.url_bild_String = bildURL;
+		const docRef = doc(db, "News", id);
+		updateDoc(docRef, {
+			text 				   : news.text,
+			ueberschrift	 : news.ueberschrift,
+			url_bild_String: news.url_bild_String,
+			url_bild			 : news.url_bild
+		}).then(function () {
+			setbearbeiten(false);
+			setIsOpen(false);
+		}).catch(function (error) {
+			console.log(error);
+		})
+
+	}else if (e.target.id =='rückgängig_button'){
+		setbildURL(news.url_bild);
+		setbearbeiten(false);
+		setIsOpen(false);
+	}
+	else if (e.target.id =='abbrechen_button'){
+		console.log('im in abbrechen')
+		setIsOpen(false);
+
+	}
 }
- }
 
-const handleChange_ueberschrift = (event) => {
-	news.ueberschrift = event.target.value;
- }
+
+const handleChange_Url_Bild = (event) => {
+	if(event.target.value == null || event.target.value == "" ){
+	setbildURL(news.url_bild)
+	}else{
+		setbildURL(event.target.value);
+	}
+}
+
+const doAlertDialog = (button) => {
+	setIsOpen(true);
+	setButton(button);
+}
 
 
   return (
@@ -139,7 +162,8 @@ const handleChange_ueberschrift = (event) => {
 					align="right"
 			>
 			<HStack spacing="24px" alignItems="right">
-			{bearbeiten ? <IconButton  name='checkButton' icon={<CheckIcon />} onClick={() => setIsOpen(true)} />: null}
+			{bearbeiten ? <IconButton  id='checkButton' icon={<CheckIcon />} onClick={() => doAlertDialog('checkButton')}/>   : null}
+			{bearbeiten ? <IconButton  id='closeButton' icon={<CloseIcon />} onClick={() => doAlertDialog('closeButton')}/>   : null}
 			<AlertDialog
         isOpen={isOpen}
         leastDestructiveRef={cancelRef}
@@ -148,19 +172,20 @@ const handleChange_ueberschrift = (event) => {
         <AlertDialogOverlay>
           <AlertDialogContent>
             <AlertDialogHeader fontSize="lg" fontWeight="bold">
-              Speichern der News
+              {button == 'checkButton' ? 'Speichern der Änderungen' : 'Löschen der Änderungen'}
             </AlertDialogHeader>
 
             <AlertDialogBody>
-              Bist du sicher, dass Sie die News abspeichern wollen? Sie können es nicht mehr Rückgängig machen.
+							{button == 'checkButton' ? 'Bist du sicher, dass Sie die News abspeichern wollen? Sie können es nicht mehr Rückgängig machen.' : 'Bist du sicher, dass Sie die Änderungen Rückgängig machen wollen? Sie können es nicht mehr Rückgängig machen.'}
+
             </AlertDialogBody>
 
             <AlertDialogFooter>
-              <Button ref={cancelRef} onClick={onClose}>
+              <Button ref={cancelRef} id="abbrechen_button" onClick={onClose}>
                 Abbrechen
               </Button>
-              <Button colorScheme="red" onClick={onClose} ml={3}>
-                Speichern
+              <Button colorScheme={button == 'checkButton' ? "green" : "red"} id={button == 'checkButton' ? 'speichern_button' : 'rückgängig_button'} onClick={onClose} ml={3}>
+                {button == 'checkButton' ? 'Speichern' : 'Rückgängig'}
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -174,7 +199,7 @@ const handleChange_ueberschrift = (event) => {
                 cursor={'pointer'}
                 minW={0}
 								>
-						<IconButton  icon={<SettingsIcon />} />
+						<IconButton  icon={bearbeiten ? null : <SettingsIcon />} />
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => setbearbeiten(true)}>Bearbeiten</MenuItem>
@@ -196,7 +221,7 @@ const handleChange_ueberschrift = (event) => {
           pos={'relative'}
 					align="right"
 					>
-					< Input name="input_url_bild" onChange={handleChange_Url_Bild}/> </Box>
+					< Input name="input_url_bild" placeholder="Neuen Bild Link hier einfügen" onChange={handleChange_Url_Bild}/> </Box>
 					: null}
 
 					<Box
@@ -206,7 +231,6 @@ const handleChange_ueberschrift = (event) => {
           mx={-6}
           mb={6}
           pos={'relative'}>
-
           <Image
             src={
               bildURL
