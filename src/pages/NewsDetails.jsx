@@ -135,6 +135,7 @@ const doAlertDialog = (button) => {
 }
 
 
+
   return (
 	<>
    <Layout>
@@ -217,7 +218,6 @@ const doAlertDialog = (button) => {
           mt={-6}
           mx={-6}
           mb={6}
-
           pos={'relative'}
 					align="right"
 					>
