@@ -1,5 +1,6 @@
 import {
   Badge,
+
   chakra,
   Code,
   Heading,
@@ -22,7 +23,7 @@ import { Layout } from '../components/Layout'
 import { useAuth } from '../contexts/AuthContext'
 import { Navbar } from '../components/Navbar'
 import { db } from "../firebase-config";
-import { DeleteIcon,SettingsIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons'
+import { DeleteIcon,SettingsIcon, ViewIcon, ViewOffIcon, AddIcon } from '@chakra-ui/icons'
 import { IconButton } from "@chakra-ui/react"
 import {
   collection,
@@ -54,7 +55,11 @@ useEffect(() => {
   return (
    <Layout>
       <Navbar />
+
 			<Heading>News</Heading>
+			<Link to={`/news_erstellen`}>
+			<IconButton  icon={<AddIcon />} />
+			</Link>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
 
 <div>

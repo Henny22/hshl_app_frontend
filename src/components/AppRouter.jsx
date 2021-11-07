@@ -14,6 +14,7 @@ import Campusplan from '../pages/Campusplan'
 import Fahrpläne from '../pages/Fahrpläne'
 import News from '../pages/News'
 import NewsDetails from '../pages/NewsDetails'
+import NewsErstellen from '../pages/NewsErstellen'
 import Loginpage from '../pages/Loginpage'
 import NotfoundPage from '../pages/NotfoundPage'
 import Profilepage from '../pages/Profilepage'
@@ -37,6 +38,7 @@ export default function AppRouter(props) {
 					<ProtectedRoute exact path='/logout' component={Loginpage} />
 					<ProtectedRoute exact path='/user_details/:id' component={UserDetails} />
 					<ProtectedRoute exact path='/news_details/:id' component={NewsDetails} />
+					<ProtectedRoute exact path='/news_erstellen' component={NewsErstellen} />
           <ProtectedRoute
             exact
             path='/forgot-password'
