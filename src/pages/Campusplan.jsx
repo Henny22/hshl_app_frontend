@@ -72,7 +72,6 @@ export default function Campusplan() {
 				setCampusplanLippstadtL4(dataLippstadtL4.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
 
-
 				const campusplanHammCollectionQuery = query(collection(db, "CampusPlan"), where("Campus", "==", "Hamm"));
 				const dataHamm = await getDocs(campusplanHammCollectionQuery);
 
@@ -81,6 +80,10 @@ export default function Campusplan() {
 
 			getCampusplan();
 		}, []);
+
+	const consolelogevent = (button) => {
+		console.log(campusplanLippstadtL3)
+}
 
   return (
    <Layout>
@@ -128,7 +131,7 @@ export default function Campusplan() {
 																			{ campusplanLippstadtL1.map (campusplanLippstadt=> (
 																							<tr key={campusplanLippstadt.id  }>
 																									<td align="left" >{campusplanLippstadt.RaumBezeichnung  }</td>
-																									<td align="left">{campusplanLippstadt.RaumName   }</td>
+																									<td align="left">{campusplanLippstadt.RaumName }</td>
 																									<td align="left">
 
 																												<HStack  spacing='2'>
@@ -266,7 +269,7 @@ export default function Campusplan() {
 																							<tr key={campusplanLippstadt.id  }>
 
 																									<td align="left" >{campusplanLippstadt.RaumBezeichnung  }</td>
-																									<td align="left">{campusplanLippstadt.RaumName   }</td>
+																									<td align="left">{campusplanLippstadt.RaumName }</td>
 																									<td align="left">
 
 																												<HStack  spacing='2'>
