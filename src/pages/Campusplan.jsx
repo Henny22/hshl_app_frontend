@@ -101,6 +101,7 @@ export default function Campusplan() {
       >
       Wechseln zu Übersicht Lippstadt
     </Button>
+
 		:
 		<Button
       type='submit'
@@ -111,9 +112,10 @@ export default function Campusplan() {
 			>
     	Wechseln zu Übersicht Hamm
     	</Button>
-
-
 		}
+		<Link to={`/campusplan_erstellen`}>
+		<IconButton  icon={<AddIcon />} />
+		</Link>
 		</HStack>
 		<div>
 		{campusSelected == 'Lippstadt' ?
