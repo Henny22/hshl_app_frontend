@@ -252,11 +252,11 @@ const createCampusplanDoc = () =>{
           mx={-6}
           mb={6}
           pos={'relative'}>
-          <Image
+          <Image height={'210px'} width={'100%'}
             src={
               bildLink
             }
-            layout={'fill'}
+
           />
         </Box>
 
@@ -291,11 +291,10 @@ const createCampusplanDoc = () =>{
           mb={6}
 					mt={3}
           pos={'relative'}>
-          					<Image
+          					<Image height={'210px'} width={'100%'}
             src={
               planBildLink
             }
-            layout={'fill'}
           />
         </Box>
 

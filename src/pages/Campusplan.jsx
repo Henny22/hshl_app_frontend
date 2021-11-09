@@ -15,6 +15,12 @@ import {
   Td,
   TableCaption,
 	HStack,
+	 AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
 Button
 } from '@chakra-ui/react'
 import React, {useState, useEffect} from 'react'
@@ -38,6 +44,10 @@ import {
 import { getAuth, deleteUser } from "firebase/auth";
 
 export default function Campusplan() {
+
+	const [isOpen, setIsOpen] = React.useState(false)
+	const [button, setButton] = useState([]);
+	const cancelRef = React.useRef()
 
 	const [campusplanLippstadt, setCampusplanLippstadt] = useState([]);
 	const [campusplanLippstadtL1, setCampusplanLippstadtL1] = useState([]);
@@ -81,12 +91,64 @@ export default function Campusplan() {
 			getCampusplan();
 		}, []);
 
-	const consolelogevent = (button) => {
-		console.log(campusplanLippstadtL3)
-}
+	const onClose  = async(e, _id ) => {
+		const id = _id ;
+		console.log(id)
+		if(e.target.id =='löschen_button'){
+		await db.collection('CampusPlan').doc(id).delete()
+
+		deleteDoc(doc(db, "CampusPlan", id)).then ((res) => {
+		window.location.reload(true);
+		})
+
+		}
+		else if (e.target.id =='abbrechen_button'){
+			setIsOpen(false);
+		}
+	}
+
+	const doAlertDialog = () => {
+		setIsOpen(true);
+	}
+
+	const deleteCampusplanDoc = () => {
+
+	}
+
+
+
 
   return (
+
+
    <Layout>
+		<AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              {'Löschen des Campusplans'}
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+							{'Bist du sicher, dass Sie diesen Campusplan löschen wollen? Sie können es nicht mehr Rückgängig machen.'}
+
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} id="abbrechen_button" onClick={onClose}>
+                Abbrechen
+              </Button>
+              <Button colorScheme={ "red"} id={'löschen_button'} onClick={onClose} ml={3}>
+                {'Löschen'}
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
       <Navbar />
 
       {/* <Text my={6}>{currentUser?.email}</Text> */}
@@ -141,6 +203,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanLippstadt.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																												<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanLippstadt.id)}/>
 																												</HStack>
 
 																									</td>
@@ -171,6 +234,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanHamm.id}`}>
 																													<IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																													<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanHamm.id)}/>
 																												</HStack>
 
 																									</td>
@@ -213,6 +277,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanLippstadtL1.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																													<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanLippstadtL1.id)}/>
 																												</HStack>
 
 																									</td>
@@ -243,6 +308,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanHamm.id}`}>
 																												<	IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																												<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanHamm.id)}/>
 																												</HStack>
 
 																									</td>
@@ -279,6 +345,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanLippstadt.id}`}>
 																													<IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																												<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanLippstadt.id)}/>
 																												</HStack>
 
 																									</td>
@@ -309,6 +376,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanHamm.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																												<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanHamm.id)}/>
 																												</HStack>
 
 																									</td>
@@ -344,6 +412,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanLippstadt.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																													<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanLippstadt.id)}/>
 																												</HStack>
 
 																									</td>
@@ -375,6 +444,7 @@ export default function Campusplan() {
 																												<Link to={`/campusplan_details/${campusplanHamm.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
+																												<IconButton  icon={<DeleteIcon />} onClick={() => doAlertDialog( campusplanHamm.id)}/>
 																												</HStack>
 
 																									</td>

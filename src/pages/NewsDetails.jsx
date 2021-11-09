@@ -231,11 +231,10 @@ const doAlertDialog = (button) => {
           mx={-6}
           mb={6}
           pos={'relative'}>
-          <Image
+          <Image height={'210px'} width={'100%'}
             src={
               bildURL
             }
-            layout={'fill'}
           />
         </Box>
         <Stack>

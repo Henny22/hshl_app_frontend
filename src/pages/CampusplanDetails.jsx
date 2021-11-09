@@ -227,14 +227,14 @@ const handleChange_Lageplan_Url_Bild = (event) => {
 				{bearbeiten?
 				<Stack mb={7}>
 					{campusplan.Campus == "Lippstadt" ?
-						<Select placeholder="Gebäude" id="select_Lippstadt" size="md" defaultValue={campusplan.Gebaeude} >
+						<Select id="select_Lippstadt"  size="md" defaultValue={campusplan.Gebaeude} >
 						<option id="select_L1"value="L1">L1</option>
 						<option id="select_L2"value="L2">L2</option>
 						<option id="select_L3"value="L3">L3</option>
 						<option id="select_L4"value="L4">L4</option>
 					</Select>
 					:
-						<Select placeholder="Gebäude" id="select_Hamm" size="md" defaultValue={campusplan.Gebaeude}>
+						<Select id="select_Hamm" size="md" defaultValue={campusplan.Gebaeude}>
 						<option id="select_H_1.1"value="H1.1">H 1.1</option>
 						<option id="select_H_1.2"value="H1.2">H 1.2</option>
 						<option id="select_H_2.1"value="H2.1">H 2.1</option>
@@ -264,11 +264,10 @@ const handleChange_Lageplan_Url_Bild = (event) => {
           mx={-6}
           mb={6}
           pos={'relative'}>
-          <Image
+          <Image h={'210px'} width={'100%'}
             src={
               bildURL
             }
-            layout={'fill'}
           />
         </Box>
         <Stack>
@@ -293,13 +292,21 @@ const handleChange_Lageplan_Url_Bild = (event) => {
 						Auf der Karte zeigen
     			</Button>
 					</HStack>
-						{	bearbeiten ? < Input id="input_lageplan"  placeholder="Neuen Lageplan Link hier einfügen" onChange={ handleChange_Lageplan_Url_Bild}/>: null }
-					<Image
+						{	bearbeiten ? < Input id="input_lageplan"  placeholder="Neuen Lageplan Link hier einfügen" mb={3} onChange={ handleChange_Lageplan_Url_Bild}/>: null }
+
+					<Box
+          h={'210px'}
+          bg={'gray.100'}
+
+          mx={-6}
+          mb={6}
+          pos={'relative'}>
+					<Image height="210px" width={'100%'}
             src={
               lageplan_bildURL
             }
-            layout={'fill'}
           />
+					</Box>
           </Text>
 
         </Stack>

@@ -210,7 +210,7 @@ const createNewsDoc = () =>{
           mx={-6}
           mb={6}
           pos={'relative'}>
-          <Image
+          <Image eight={'210px'} width={'100%'}
             src={
               bildURL
             }
