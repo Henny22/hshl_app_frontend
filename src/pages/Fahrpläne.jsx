@@ -90,13 +90,11 @@ export default function Fahrpläne() {
 
 {campusSelected != "Lippstadt" ?
 			<Button
-
       type='submit'
       colorScheme='pink'
       size='lg'
       fontSize='md'
-			onClick={() => setcampusSelected('Lippstadt') }
-      >
+			onClick={() => setcampusSelected('Lippstadt') }>
       Wechseln zu Übersicht Lippstadt
     </Button>
 
@@ -106,8 +104,7 @@ export default function Fahrpläne() {
       colorScheme='pink'
       size='lg'
       fontSize='md'
-			onClick={() => setcampusSelected('Hamm') }
-			>
+			onClick={() => setcampusSelected('Hamm') }>
     	Wechseln zu Übersicht Hamm
     	</Button>
 		}
@@ -134,8 +131,11 @@ export default function Fahrpläne() {
 																									<td align="left">
 
 																												<HStack  spacing='2'>
+
 																												<IconButton  icon={<ViewOffIcon /> } />
+																												<Link to={`/fahrpläne_details/${fahrplanBusLippstadt.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
+																												</Link>
 																												<IconButton  icon={<DeleteIcon />} />
 																												</HStack>
 
@@ -168,7 +168,9 @@ export default function Fahrpläne() {
 
 																												<HStack  spacing='2'>
 																												<IconButton  icon={<ViewOffIcon /> } />
+																												<Link to={`/fahrpläne_details/${fahrplanBusHamm.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
+																												</Link>
 																												<IconButton  icon={<DeleteIcon />} />
 																												</HStack>
 
@@ -202,7 +204,9 @@ export default function Fahrpläne() {
 
 																												<HStack  spacing='2'>
 																												<IconButton  icon={<ViewOffIcon /> } />
+																												<Link to={`/fahrpläne_details/${fahrplanZugLippstadt.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
+																												</Link>
 																												<IconButton  icon={<DeleteIcon />} />
 																												</HStack>
 
@@ -235,7 +239,9 @@ export default function Fahrpläne() {
 
 																												<HStack  spacing='2'>
 																												<IconButton  icon={<ViewOffIcon /> } />
+																												<Link to={`/fahrpläne_details/${fahrplanZugHamm.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
+																												</Link>
 																												<IconButton  icon={<DeleteIcon />} />
 																												</HStack>
 

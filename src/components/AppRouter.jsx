@@ -23,6 +23,7 @@ import Profilepage from '../pages/Profilepage'
 import Registerpage from '../pages/Registerpage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
 import TestPage from '../pages/TestPage'
+import FahrpläneDetails from '../pages/FahrpläneDetails'
 
 export default function AppRouter(props) {
   return (
@@ -41,6 +42,7 @@ export default function AppRouter(props) {
 					<ProtectedRoute exact path='/user_details/:id' component={UserDetails} />
 					<ProtectedRoute exact path='/news_details/:id' component={NewsDetails} />
 					<ProtectedRoute exact path='/news_erstellen' component={NewsErstellen} />
+					<ProtectedRoute exact path='/fahrpläne_details/:id' component={FahrpläneDetails} />
 					<ProtectedRoute exact path='/campusplan_details/:id' component={CampusplanDetails} />
 					<ProtectedRoute exact path='/campusplan_erstellen' component={CampusplanErstellen} />
           <ProtectedRoute
