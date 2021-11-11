@@ -248,17 +248,15 @@ const doAlertDialog = (button) => {
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
             fontFamily={'body'} >
-             {	bearbeiten ? < Textarea id="textarea_ueberschrift" defaultValue={news.ueberschrift} as={ResizeTextarea} /> :  news.ueberschrift }
+             {bearbeiten ? < Textarea id="textarea_ueberschrift" defaultValue={news.ueberschrift} as={ResizeTextarea} /> :  news.ueberschrift }
           </Heading>
 					<Divider orientation="horizontal" />
           <Text color={'gray.500'}>
-
 				{	bearbeiten ? < Textarea id="textarea_text" defaultValue={news.text} as={ResizeTextarea}/> :  news.text }
           </Text>
 
         </Stack>
         <Stack mt={6} direction={'row'} spacing={4} align={'center'}>
-
         </Stack>
       </Box>
     </Center>

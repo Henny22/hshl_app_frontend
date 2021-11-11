@@ -41,7 +41,6 @@ import {
 	query,
 	where,
 } from "firebase/firestore";
-import { getAuth, deleteUser } from "firebase/auth";
 
 export default function Campusplan() {
 
