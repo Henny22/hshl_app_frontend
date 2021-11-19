@@ -64,28 +64,28 @@ import {
 
 export default function FahrpläneDetails() {
 	const [fahrplan, setFahrplan] = useState([]);
+	
 	const {id} = useParams()
-	const [bildURL, setbildURL]= useState([]);
-	const [lageplan_bildURL, setlageplan_bildURL]= useState([]);
+
+
 	const [bearbeiten, setBearbeiten] = useState([]);
 	const [isOpen, setIsOpen] = React.useState(false)
+	const [campus_transport_type, setCampus_transport_type]= useState([]);
 	const [button, setButton] = useState([]);
 	const cancelRef = React.useRef()
 	const history = useHistory()
-
+	const fahrplanLippstadtBusdocRef = doc(db, "Fahrplan_Bus_Lippstadt", id);
+	const fahrplanHammBusdocRef = doc(db, "Fahrplan_Bus_Hamm", id);
+	const fahrplanLippstadtZugdocRef = doc(db, "Fahrplan_Zug_Lippstadt", id);
+	const fahrplanHammZugdocRef = doc(db, "Fahrplan_Zug_Hamm", id);
 
 	useEffect(() => {
 			const getCampusplan = async () => {
 			setBearbeiten(false);
-
-				const fahrplanLippstadtBusdocRef = doc(db, "Fahrplan_Bus_Lippstadt", id);
-				const fahrplanHammBusdocRef = doc(db, "Fahrplan_Bus_Hamm", id);
-				const fahrplanLippstadtZugdocRef = doc(db, "Fahrplan_Zug_Lippstadt", id);
-				const fahrplanHammZugdocRef = doc(db, "Fahrplan_Zug_Hamm", id);
-
 				getDoc(fahrplanLippstadtBusdocRef).then((result) =>{
 					if (result.exists()) {
 					setFahrplan(result.data())
+					setCampus_transport_type("Lippstadt_Bus")
 					} else {
 
 					}
@@ -94,6 +94,7 @@ export default function FahrpläneDetails() {
 				getDoc(fahrplanHammBusdocRef).then((result) =>{
 					if (result.exists()) {
 					setFahrplan(result.data())
+					setCampus_transport_type("Hamm_Bus")
 					} else {
 
 					}
@@ -102,6 +103,7 @@ export default function FahrpläneDetails() {
 					getDoc(fahrplanLippstadtZugdocRef).then((result) =>{
 					if (result.exists()) {
 					setFahrplan(result.data())
+					setCampus_transport_type("Lippstadt_Bahn")
 					} else {
 
 					}
@@ -110,6 +112,7 @@ export default function FahrpläneDetails() {
 					getDoc(fahrplanHammZugdocRef).then((result) =>{
 					if (result.exists()) {
 					setFahrplan(result.data())
+					setCampus_transport_type("Hamm_Bahn")
 					} else {
 
 					}
@@ -121,12 +124,98 @@ export default function FahrpläneDetails() {
 
 const onClose = (e) => {
 	if(e.target.id =='speichern_button'){
+			fahrplan.id = document.getElementById("input_id").value
+			fahrplan.TagTyp = document.getElementById("input_TagTyp").value
+			fahrplan.Haltestelle_Abfahrt_Name = document.getElementById("input_Haltestelle_Abfahrt_Name").value
+			fahrplan.Haltestelle_Ankunft_Name = document.getElementById("input_Haltestelle_Ankunft_Name").value
+			fahrplan.Uhrzeit_Einfahrt = document.getElementById("input_Uhrzeit_Einfahrt").value
 
-			setIsOpen(false);
+			if(campus_transport_type == "Lippstadt_Bus"){
+				fahrplan.Buslinie = document.getElementById("input_buslinie").value
+				fahrplan.Uhrzeit_Ankunft = document.getElementById("input_Uhrzeit_Ankunft").value
+				
+				updateDoc(fahrplanLippstadtBusdocRef, {							
+					Buslinie: fahrplan.Buslinie , 
+					Haltestelle_Abfahrt_Name: fahrplan.Haltestelle_Abfahrt_Name , 
+					Haltestelle_Ankunft_Name: fahrplan.Haltestelle_Ankunft_Name, 
+					TagTyp: fahrplan.TagTyp, 
+					Uhrzeit_Ankunft: fahrplan.Uhrzeit_Ankunft, 
+					Uhrzeit_Einfahrt: 	fahrplan.Uhrzeit_Einfahrt, 
+					id: fahrplan.id, 
+				}).then(function () {
+					setBearbeiten(false);
+					setIsOpen(false);
+				}).catch(function (error) {
+					console.log(error);
+				})
 
+			} else if(campus_transport_type == "Lippstadt_Bahn"){
+				fahrplan.Gleis = document.getElementById("input_Gleis").value
+				fahrplan.Haltestellen = document.getElementById("textarea_haltestellens").value
+				fahrplan.Zug  = document.getElementById("input_Zug").value
+
+ 
+				updateDoc(fahrplanLippstadtZugdocRef, {							
+					Gleis : fahrplan.Gleis ,
+					Haltestelle_Abfahrt_Name: fahrplan.Haltestelle_Abfahrt_Name,
+					Haltestelle_Ankunft_Name: fahrplan.Haltestelle_Ankunft_Name,
+					Haltestellen : fahrplan.Haltestellen,
+					TagTyp : fahrplan.TagTyp,
+					Uhrzeit_Einfahrt : fahrplan.Uhrzeit_Einfahrt,
+					Zug : fahrplan.Zug,
+					id : fahrplan.id,
+				}).then(function () {
+					setBearbeiten(false);
+					setIsOpen(false);
+				}).catch(function (error) {
+					console.log(error);
+				})
+
+			}else if(campus_transport_type == "Hamm_Bus"){
+				fahrplan.Buslinie = document.getElementById("input_buslinie").value
+				fahrplan.Uhrzeit_Ankunft = document.getElementById("input_Uhrzeit_Ankunft").value
+				
+				updateDoc(fahrplanHammBusdocRef, {							
+					Buslinie: fahrplan.Buslinie , 
+					Haltestelle_Abfahrt_Name: fahrplan.Haltestelle_Abfahrt_Name , 
+					Haltestelle_Ankunft_Name: fahrplan.Haltestelle_Ankunft_Name, 
+					TagTyp: fahrplan.TagTyp, 
+					Uhrzeit_Ankunft: fahrplan.Uhrzeit_Ankunft, 
+					Uhrzeit_Einfahrt: 	fahrplan.Uhrzeit_Einfahrt, 
+					id: fahrplan.id, 
+				}).then(function () {
+					setBearbeiten(false);
+					setIsOpen(false);
+				}).catch(function (error) {
+					console.log(error);
+				})
+
+			}else if(campus_transport_type == "Hamm_Bahn"){
+				fahrplan.Gleis = document.getElementById("input_Gleis").value
+				fahrplan.Haltestellen = document.getElementById("textarea_haltestellen").value
+				fahrplan.Zug  = document.getElementById("input_Zug").value
+
+				updateDoc(fahrplanHammZugdocRef, {							
+					Gleis : fahrplan.Gleis ,
+					Haltestelle_Abfahrt_Name: fahrplan.Haltestelle_Abfahrt_Name,
+					Haltestelle_Ankunft_Name: fahrplan.Haltestelle_Ankunft_Name,
+					Haltestellen : fahrplan.Haltestellen,
+					TagTyp : fahrplan.TagTyp,
+					Uhrzeit_Einfahrt : fahrplan.Uhrzeit_Einfahrt,
+					Zug : fahrplan.Zug,
+					id : fahrplan.id,
+				}).then(function () {
+					setBearbeiten(false);
+					setIsOpen(false);
+				}).catch(function (error) {
+					console.log(error);
+				})
+			}
+			
 
 	}else if (e.target.id =='rückgängig_button'){
-
+		setIsOpen(false);
+		setBearbeiten(false);
 	}
 	else if (e.target.id =='abbrechen_button'){
 		setIsOpen(false);
@@ -207,9 +296,6 @@ const doAlertDialog = (button) => {
               <MenuList>
                 <MenuItem onClick={() => setBearbeiten(true)} >Bearbeiten</MenuItem>
                 <MenuDivider />
-
-                <MenuDivider />
-
               </MenuList>
             </Menu>
 				</HStack>
@@ -221,12 +307,8 @@ const doAlertDialog = (button) => {
             fontSize={'2xl'}
             fontFamily={'body'} >
 
-
-
-
-
 					{fahrplan.Zug  == null   ?  "ID: " : "ID: "  }
-					{bearbeiten ? <input defaultValue={fahrplan.id}></input> : fahrplan.id }
+					{bearbeiten ? <input id="input_id" defaultValue={fahrplan.id}></input> : fahrplan.id }
           </Heading>
 
           <Heading
@@ -239,8 +321,8 @@ const doAlertDialog = (button) => {
 
 
 
-					{fahrplan.Zug  == null && bearbeiten == true  ?  <input defaultValue={fahrplan.Buslinie}></input> : null  }
-					{fahrplan.Zug  != null && bearbeiten == true  ?  <input defaultValue={fahrplan.Zug}></input> : null  }
+					{fahrplan.Zug  == null && bearbeiten == true  ?  <input id="input_buslinie" defaultValue={fahrplan.Buslinie}></input> : null  }
+					{fahrplan.Zug  != null && bearbeiten == true  ?  <input id="input_Zug" defaultValue={fahrplan.Zug}></input> : null  }
 
 
           </Heading>
@@ -250,25 +332,24 @@ const doAlertDialog = (button) => {
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Tag:  " : "Tag: "  }
-				{bearbeiten ?  <input defaultValue={fahrplan.TagTyp}></input> : fahrplan.TagTyp}
+				{bearbeiten ?  <input id="input_TagTyp" defaultValue={fahrplan.TagTyp}></input> : fahrplan.TagTyp}
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  null : "Gleis: "  }
 				{fahrplan.Zug  != null && bearbeiten == false  ? fahrplan.Gleis  : null}
-				{fahrplan.Zug  != null && bearbeiten == true ? <input defaultValue={fahrplan.Gleis}></input> : null }
+				{fahrplan.Zug  != null && bearbeiten == true ? <input id="input_Gleis" defaultValue={fahrplan.Gleis}></input> : null }
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Haltestelle Abfahrt: " : "Haltestelle Abfahrt: "  }
-				{bearbeiten ?<input defaultValue={fahrplan.Haltestelle_Abfahrt_Name}></input> : fahrplan.Haltestelle_Abfahrt_Name   }
+				{bearbeiten ?<input id="input_Haltestelle_Abfahrt_Name" defaultValue={fahrplan.Haltestelle_Abfahrt_Name}></input> : fahrplan.Haltestelle_Abfahrt_Name   }
 
 				</Text>
 
 				<Text color={'gray.500'}>
-				{fahrplan.Zug  == null ?  "Haltestelle Ankunft: " : "Haltestelle Ankunft: "  }
-				{fahrplan.Zug  == null ?  fahrplan.Haltestelle_Ankunft_Name : fahrplan.Haltestelle_Ankunft_Name  }
-				{bearbeiten ? <input defaultValue={fahrplan.Haltestelle_Ankunft_Name}></input> : fahrplan.Haltestelle_Ankunft_Name   }
+				{fahrplan.Zug  == null ?  "Haltestelle Ankunft: " : "Haltestelle Ankunft: " }
+				{bearbeiten ? <input id="input_Haltestelle_Ankunft_Name" defaultValue={fahrplan.Haltestelle_Ankunft_Name}></input> : fahrplan.Haltestelle_Ankunft_Name   }
 				</Text>
 
 				<Text color={'gray.500'}>
@@ -282,14 +363,14 @@ const doAlertDialog = (button) => {
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Uhrzeit Einfahrt: " : "Uhrzeit Einfahrt: "  }
-				{bearbeiten ? <input defaultValue={fahrplan.Uhrzeit_Einfahrt}></input> : fahrplan.Uhrzeit_Einfahrt }
+				{bearbeiten ? <input id="input_Uhrzeit_Einfahrt" defaultValue={fahrplan.Uhrzeit_Einfahrt}></input> : fahrplan.Uhrzeit_Einfahrt }
 
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Haltestelle Ankunft: " : null  }
 				{fahrplan.Zug  == null && bearbeiten == false  ? fahrplan.Uhrzeit_Ankunft  :  null}
-				{fahrplan.Zug  == null && bearbeiten == true ?  <input defaultValue={fahrplan.Uhrzeit_Ankunft}></input> : null  }
+				{fahrplan.Zug  == null && bearbeiten == true ?  <input id="input_Uhrzeit_Ankunft" defaultValue={fahrplan.Uhrzeit_Ankunft}></input> : null  }
 				</Text>
 
 

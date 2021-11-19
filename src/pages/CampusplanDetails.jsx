@@ -80,7 +80,7 @@ useEffect(() => {
 	getDoc(docRef).then((result) =>{
 
 	if (result.exists()) {
-	setCampusplan(result.data())
+
 	setbildURL(result.data().BildLink)
 	setlageplan_bildURL(result.data().PlanBildLink)
 	setbearbeiten(false);
