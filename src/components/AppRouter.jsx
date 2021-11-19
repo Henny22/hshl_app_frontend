@@ -24,7 +24,7 @@ import Registerpage from '../pages/Registerpage'
 import ResetPasswordPage from '../pages/ResetPasswordPage'
 import TestPage from '../pages/TestPage'
 import FahrpläneDetails from '../pages/FahrpläneDetails'
-
+import FahrpläneErstellen from '../pages/FahrpläneErstellen'
 export default function AppRouter(props) {
   return (
     <>
@@ -45,6 +45,8 @@ export default function AppRouter(props) {
 					<ProtectedRoute exact path='/fahrpläne_details/:id' component={FahrpläneDetails} />
 					<ProtectedRoute exact path='/campusplan_details/:id' component={CampusplanDetails} />
 					<ProtectedRoute exact path='/campusplan_erstellen' component={CampusplanErstellen} />
+					<ProtectedRoute exact path='/fahrpläne_erstellen' component={FahrpläneErstellen} />
+
           <ProtectedRoute
             exact
             path='/forgot-password'

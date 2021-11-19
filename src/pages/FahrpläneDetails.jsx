@@ -44,6 +44,7 @@ import {
 } from '@chakra-ui/react'
 import React, {useState, useEffect} from 'react'
 import { Link, useLocation,useParams, useHistory } from 'react-router-dom'
+import ResizeTextarea from "react-textarea-autosize";
 import { Layout } from '../components/Layout'
 import { useAuth } from '../contexts/AuthContext'
 import { Navbar } from '../components/Navbar'
@@ -66,14 +67,17 @@ export default function FahrpläneDetails() {
 	const {id} = useParams()
 	const [bildURL, setbildURL]= useState([]);
 	const [lageplan_bildURL, setlageplan_bildURL]= useState([]);
-	const [bearbeiten, setbearbeiten] = useState([]);
+	const [bearbeiten, setBearbeiten] = useState([]);
 	const [isOpen, setIsOpen] = React.useState(false)
 	const [button, setButton] = useState([]);
 	const cancelRef = React.useRef()
 	const history = useHistory()
 
+
 	useEffect(() => {
 			const getCampusplan = async () => {
+			setBearbeiten(false);
+
 				const fahrplanLippstadtBusdocRef = doc(db, "Fahrplan_Bus_Lippstadt", id);
 				const fahrplanHammBusdocRef = doc(db, "Fahrplan_Bus_Hamm", id);
 				const fahrplanLippstadtZugdocRef = doc(db, "Fahrplan_Zug_Lippstadt", id);
@@ -110,8 +114,6 @@ export default function FahrpläneDetails() {
 
 					}
 					})
-
-
 			};
 			getCampusplan();
 		}, []);
@@ -203,10 +205,9 @@ const doAlertDialog = (button) => {
 						<IconButton  icon={bearbeiten ? null : <SettingsIcon />} />
               </MenuButton>
               <MenuList>
-                <MenuItem onClick={() => setbearbeiten(true)}>Bearbeiten</MenuItem>
+                <MenuItem onClick={() => setBearbeiten(true)} >Bearbeiten</MenuItem>
                 <MenuDivider />
-								<MenuItem>Unveröffentlichen</MenuItem>
-								<MenuItem>Veröffentlichen</MenuItem>
+
                 <MenuDivider />
 
               </MenuList>
@@ -214,16 +215,18 @@ const doAlertDialog = (button) => {
 				</HStack>
         </Box>
 
-
-
-
         <Stack>
 					<Heading
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
             fontFamily={'body'} >
-					{fahrplan.Zug  == null ?  "ID: " : "ID: "  }
-					{fahrplan.Zug  == null ?  fahrplan.id : fahrplan.id  }
+
+
+
+
+
+					{fahrplan.Zug  == null   ?  "ID: " : "ID: "  }
+					{bearbeiten ? <input defaultValue={fahrplan.id}></input> : fahrplan.id }
           </Heading>
 
           <Heading
@@ -231,7 +234,15 @@ const doAlertDialog = (button) => {
             fontSize={'2xl'}
             fontFamily={'body'} >
 					{fahrplan.Zug  == null ?  "Bus: " : "Zug: "  }
-					{fahrplan.Zug  == null ?  fahrplan.Buslinie: fahrplan.Zug  }
+					{fahrplan.Zug  == null && bearbeiten == false ?  fahrplan.Buslinie : null  }
+					{fahrplan.Zug  != null && bearbeiten == false ?   fahrplan.Zug  : null}
+
+
+
+					{fahrplan.Zug  == null && bearbeiten == true  ?  <input defaultValue={fahrplan.Buslinie}></input> : null  }
+					{fahrplan.Zug  != null && bearbeiten == true  ?  <input defaultValue={fahrplan.Zug}></input> : null  }
+
+
           </Heading>
 					<Divider orientation="horizontal" />
           <Text color={'gray.500'}>
@@ -239,37 +250,46 @@ const doAlertDialog = (button) => {
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Tag:  " : "Tag: "  }
-				{fahrplan.Zug  == null ?  fahrplan.TagTyp : fahrplan.TagTyp  }
+				{bearbeiten ?  <input defaultValue={fahrplan.TagTyp}></input> : fahrplan.TagTyp}
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  null : "Gleis: "  }
-				{fahrplan.Zug  == null ?  null : fahrplan.Gleis  }
+				{fahrplan.Zug  != null && bearbeiten == false  ? fahrplan.Gleis  : null}
+				{fahrplan.Zug  != null && bearbeiten == true ? <input defaultValue={fahrplan.Gleis}></input> : null }
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Haltestelle Abfahrt: " : "Haltestelle Abfahrt: "  }
-				{fahrplan.Zug  == null ?  fahrplan.Haltestelle_Abfahrt_Name : fahrplan.Haltestelle_Abfahrt_Name  }
+				{bearbeiten ?<input defaultValue={fahrplan.Haltestelle_Abfahrt_Name}></input> : fahrplan.Haltestelle_Abfahrt_Name   }
+
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Haltestelle Ankunft: " : "Haltestelle Ankunft: "  }
 				{fahrplan.Zug  == null ?  fahrplan.Haltestelle_Ankunft_Name : fahrplan.Haltestelle_Ankunft_Name  }
+				{bearbeiten ? <input defaultValue={fahrplan.Haltestelle_Ankunft_Name}></input> : fahrplan.Haltestelle_Ankunft_Name   }
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  null : "Haltestellen: "  }
-				{fahrplan.Zug  == null ?  null : fahrplan.Haltestellen  }
+				{fahrplan.Zug  != null && bearbeiten == false  ? fahrplan.Haltestellen  : null}
+				{fahrplan.Zug  != null && bearbeiten == true ? < Textarea id="textarea_haltestellen" defaultValue={fahrplan.Haltestellen} as={ResizeTextarea}/> : null }
+
+
+
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Uhrzeit Einfahrt: " : "Uhrzeit Einfahrt: "  }
-				{fahrplan.Zug  == null ?  fahrplan.Uhrzeit_Einfahrt : fahrplan.Uhrzeit_Einfahrt  }
+				{bearbeiten ? <input defaultValue={fahrplan.Uhrzeit_Einfahrt}></input> : fahrplan.Uhrzeit_Einfahrt }
+
 				</Text>
 
 				<Text color={'gray.500'}>
 				{fahrplan.Zug  == null ?  "Haltestelle Ankunft: " : null  }
-				{fahrplan.Zug  == null ?  fahrplan.Uhrzeit_Ankunft : null  }
+				{fahrplan.Zug  == null && bearbeiten == false  ? fahrplan.Uhrzeit_Ankunft  :  null}
+				{fahrplan.Zug  == null && bearbeiten == true ?  <input defaultValue={fahrplan.Uhrzeit_Ankunft}></input> : null  }
 				</Text>
 
 

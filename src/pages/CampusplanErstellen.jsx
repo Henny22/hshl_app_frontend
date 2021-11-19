@@ -89,23 +89,6 @@ export default function CampusplanErstellen() {
 		setGebaeude("L1");
 		}, []);
 
-const onClose = (e) => {
-	if(e.target.id =='speichern_button'){
-			setbearbeiten(false);
-			setIsOpen(false);
-
-	}else if (e.target.id =='rückgängig_button'){
-		setBildLink(campusplan.BildLink);
-		setbearbeiten(false);
-		setIsOpen(false);
-	}
-	else if (e.target.id =='abbrechen_button'){
-		console.log('im in abbrechen')
-		setIsOpen(false);
-
-	}
-}
-
 
 const handleChange_Url_Bild = (event) => {
 	if(event.target.value == null || event.target.value == "" ){
@@ -174,7 +157,7 @@ const createCampusplanDoc = () =>{
    <Layout>
       <Navbar />
 			<Heading>	<IconButton icon={<ArrowBackIcon /> } onClick={() => history.goBack()}/> News</Heading>
-      {/* <Text my={6}>{currentUser?.email}</Text> */}
+      {/* <1 my={6}>{currentUser?.email}</Text> */}
 		<div>
 			 <Center py={6}>
       <Box

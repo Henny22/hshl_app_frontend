@@ -46,6 +46,7 @@ export default function Campusplan() {
 
 	const [isOpen, setIsOpen] = React.useState(false)
 	const [button, setButton] = useState([]);
+	const [selectedID, setSelectedID] = useState([]);
 	const cancelRef = React.useRef()
 
 	const [campusplanLippstadt, setCampusplanLippstadt] = useState([]);
@@ -90,36 +91,33 @@ export default function Campusplan() {
 			getCampusplan();
 		}, []);
 
-	const onClose  = async(e, _id ) => {
-		const id = _id ;
-		console.log(id)
-		if(e.target.id =='löschen_button'){
-		await db.collection('CampusPlan').doc(id).delete()
-
-		deleteDoc(doc(db, "CampusPlan", id)).then ((res) => {
-		window.location.reload(true);
-		})
-
-		}
-		else if (e.target.id =='abbrechen_button'){
-			setIsOpen(false);
-		}
-	}
-
-	const doAlertDialog = () => {
-		setIsOpen(true);
-	}
 
 	const deleteCampusplanDoc = () => {
 
+	}
+
+	const onClose  = async(e ) => {
+
+		if(e.target.id =='löschen_button'){
+		await deleteDoc(doc(db, "CampusPlan", selectedID));
+		setSelectedID("")
+		window.location.reload(false);
+		}
+		else if (e.target.id =='abbrechen_button'){
+			setIsOpen(false);
+			setSelectedID("")
+		}
+	}
+
+	const doAlertDialog = (id) => {
+		setSelectedID(id)
+		setIsOpen(true);
 	}
 
 
 
 
   return (
-
-
    <Layout>
 		<AlertDialog
         isOpen={isOpen}

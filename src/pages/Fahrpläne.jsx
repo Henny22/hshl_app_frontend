@@ -47,9 +47,16 @@ import {
 
 
 export default function Fahrpläne() {
+	const [isOpen, setIsOpen] = React.useState(false)
+	const [selectedID, setSelectedID] = useState([]);
+	const cancelRef = React.useRef()
+
+	const [transport, setTransport] = useState([]);
 
 	const [campusSelected, setcampusSelected] = useState([]);
 	const [busSelected, setBusSelected] = useState([]);
+
+
 
 	const [fahrplanBusLippstadt, setFahrplanBusLippstadt] = useState([]);
 	const [fahrplanZugLippstadt, setFahrplanZugLippstadt] = useState([]);
@@ -61,6 +68,7 @@ export default function Fahrpläne() {
 			const getCampusplan = async () => {
 				setcampusSelected('Lippstadt');
 				setBusSelected(true);
+
 
 				const campusplanLippstadtL1CollectionQuery = query(collection(db, "Fahrplan_Bus_Lippstadt"))
 				const campusplanLippstadtL2CollectionQuery = query(collection(db, "Fahrplan_Zug_Lippstadt"))
@@ -82,8 +90,69 @@ export default function Fahrpläne() {
 		}, []);
 
 
+	const onClose  = async(e ) => {
+		if(e.target.id =='löschen_button'){
+			if (campusSelected == "Lippstadt" && transport == "Bus"){
+				await deleteDoc(doc(db, "Fahrplan_Bus_Lippstadt", selectedID));
+				setSelectedID("")
+				window.location.reload(false);
+			} else if (campusSelected == "Lippstadt" && transport == "Bahn"){
+				await deleteDoc(doc(db, "Fahrplan_Zug_Lippstadt", selectedID));
+				setSelectedID("")
+				window.location.reload(false);
+			} else if (campusSelected == "Hamm" && transport == "Bus"){
+				await deleteDoc(doc(db, "Fahrplan_Bus_Hamm", selectedID));
+				setSelectedID("")
+				window.location.reload(false);
+			} else if (campusSelected == "Hamm" && transport == "Bahn"){
+				await deleteDoc(doc(db, "Fahrplan_Zug_Hamm", selectedID));
+				setSelectedID("")
+				window.location.reload(false);
+			}
+			}
+			else if (e.target.id =='abbrechen_button'){
+				setIsOpen(false);
+				setSelectedID("")
+			}
+		}
+
+	const doAlertDialog = (id, transport) => {
+		setSelectedID(id)
+		setTransport(transport)
+		setIsOpen(true);
+	}
+
   return (
    <Layout>
+			<AlertDialog
+        isOpen={isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              {'Löschen des Campusplans'}
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+							{'Bist du sicher, dass Sie diesen Campusplan löschen wollen? Sie können es nicht mehr Rückgängig machen.'}
+
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button ref={cancelRef} id="abbrechen_button" onClick={onClose}>
+                Abbrechen
+              </Button>
+              <Button colorScheme={ "red"} id={'löschen_button'} onClick={onClose} ml={3}>
+                {'Löschen'}
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
+
+
       <Navbar />
 			<Heading>Fahrpläne Bus & Bahn</Heading>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
@@ -108,6 +177,9 @@ export default function Fahrpläne() {
     	Wechseln zu Übersicht Hamm
     	</Button>
 		}
+		<Link to={`/fahrpläne_erstellen`}>
+		<IconButton  icon={<AddIcon />} />
+		</Link>
 
 		{campusSelected == 'Lippstadt' ?
 		<Table variant="simple" >
@@ -136,7 +208,7 @@ export default function Fahrpläne() {
 																												<Link to={`/fahrpläne_details/${fahrplanBusLippstadt.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
-																												<IconButton  icon={<DeleteIcon />} />
+																												<IconButton  icon={<DeleteIcon onClick={() => doAlertDialog( fahrplanBusLippstadt.id , "Bus")} /> } />
 																												</HStack>
 
 																									</td>
@@ -171,7 +243,7 @@ export default function Fahrpläne() {
 																												<Link to={`/fahrpläne_details/${fahrplanBusHamm.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
-																												<IconButton  icon={<DeleteIcon />} />
+																												<IconButton  icon={<DeleteIcon onClick={() => doAlertDialog( fahrplanBusHamm.id , "Bus")}/>} />
 																												</HStack>
 
 																									</td>
@@ -207,7 +279,7 @@ export default function Fahrpläne() {
 																												<Link to={`/fahrpläne_details/${fahrplanZugLippstadt.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
-																												<IconButton  icon={<DeleteIcon />} />
+																												<IconButton  icon={<DeleteIcon onClick={() => doAlertDialog( fahrplanZugLippstadt.id , "Bahn")} />} />
 																												</HStack>
 
 																									</td>
@@ -242,7 +314,7 @@ export default function Fahrpläne() {
 																												<Link to={`/fahrpläne_details/${fahrplanZugHamm.id}`}>
 																												<IconButton  icon={<SettingsIcon />} />
 																												</Link>
-																												<IconButton  icon={<DeleteIcon />} />
+																												<IconButton  icon={<DeleteIcon onClick={() => doAlertDialog( fahrplanZugHamm.id, "Bahn" )} />} />
 																												</HStack>
 
 																									</td>
