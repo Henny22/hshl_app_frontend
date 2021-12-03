@@ -204,10 +204,6 @@ const doAlertDialog = (button) => {
               </MenuButton>
               <MenuList>
                 <MenuItem onClick={() => setbearbeiten(true)}>Bearbeiten</MenuItem>
-                <MenuDivider />
-								{news.public ? <MenuItem>Unveröffentlichen</MenuItem> : <MenuItem>Veröffentlichen</MenuItem>}
-                <MenuDivider />
-
               </MenuList>
             </Menu>
 				</HStack>

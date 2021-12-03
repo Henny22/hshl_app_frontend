@@ -93,7 +93,7 @@ export default function Loginpage() {
         >
           <Stack spacing='6'>
             <FormControl id='email'>
-              <FormLabel>Email address</FormLabel>
+              <FormLabel>Email Adresse</FormLabel>
               <Input
                 name='email'
                 type='email'
@@ -104,7 +104,7 @@ export default function Loginpage() {
               />
             </FormControl>
             <FormControl id='password'>
-              <FormLabel>Password</FormLabel>
+              <FormLabel>Passwort</FormLabel>
               <Input
                 name='password'
                 type='password'
@@ -122,10 +122,10 @@ export default function Loginpage() {
               fontSize='md'
               isLoading={isSubmitting}
             >
-              Sign in
+              Anmelden
             </Button>
 				<Button variant='link'>
-            <Link to='/forgot-password' >Forgot password?</Link>
+            <Link to='/forgot-password' >Passwort vergessen?</Link>
         </Button>
           </Stack>
         </chakra.form>

@@ -191,8 +191,6 @@ const createNewsDoc = () =>{
 			{preview ?   <IconButton  id='checkButton' icon={<EditIcon />}  onClick={() => setPreview(false) } /> :  null }
 				</HStack>
         </Box>
-
-
 				 { preview ? null: <Box
           h={'50px'}
           mt={-6}
@@ -202,19 +200,18 @@ const createNewsDoc = () =>{
 					align="right"
 					>	< Input name="input_url_bild" id="input_url_bild" placeholder="Neuen Bild Link hier einfügen" defaultValue={bildURL} onChange={handleChange_Url_Bild}/> </Box>}
 
-
 					<Box
           h={'210px'}
           bg={'gray.100'}
-          mt={-6}
           mx={-6}
           mb={6}
+					mt={3}
           pos={'relative'}>
-          <Image eight={'210px'} width={'100%'}
+          <Image height={'210px'} width={'100%'}
             src={
               bildURL
             }
-            layout={'fill'}
+
           />
         </Box>
         <Stack>
@@ -228,12 +225,12 @@ const createNewsDoc = () =>{
             color={useColorModeValue('gray.700', 'white')}
             fontSize={'2xl'}
             fontFamily={'body'} >
-           {preview ? ueberschrift : < Textarea id="textarea_ueberschrift" defaultValue={ueberschrift} as={ResizeTextarea} /> }
+           {preview ? ueberschrift : < Textarea id="textarea_ueberschrift" placeholder="Überschrift" defaultValue={ueberschrift} as={ResizeTextarea} /> }
           </Heading>
 					<Divider orientation="horizontal" />
           <Text color={'gray.500'}>
 
-				{preview ?  text : < Textarea id="textarea_text" defaultValue={text} as={ResizeTextarea}/>}
+				{preview ?  text : < Textarea id="textarea_text" placeholder="Content Text" defaultValue={text} as={ResizeTextarea}/>}
           </Text>
 
         </Stack>

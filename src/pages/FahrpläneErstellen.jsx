@@ -77,6 +77,7 @@ export default function FahrpläneErstellen() {
 	const [uhrzeitEinfahrt, setUhrzeitEinfahrt ] = useState([]);
 	const [uhrzeitAnkunft, setUhrzeitAnkunft ] = useState([]);
 	const	[haltestellen, setHaltstellen] = useState([]);
+
 	useEffect(() => {
 		setStandort("Lippstadt")
 		setTransport("Bus");
@@ -142,7 +143,18 @@ const resetForm = (event) => {
 
 const creatFahrplanDoc = () =>{
 
+	if(standort == "Lippstadt" && transport =="Bahn" || standort == "Hamm" && transport =="Bahn" ){
+		var einfahrtStunde = uhrzeitEinfahrt.slice(0,2);
+		var einfahrtMinuten= uhrzeitEinfahrt.slice(3,5);
+	}else{
+		var einfahrtStunde = uhrzeitEinfahrt.slice(0,2);
+		var einfahrtMinuten= uhrzeitEinfahrt.slice(3,5);
+		var ankunftStunde = uhrzeitAnkunft.slice(0,2);
+		var ankunftMinuten= uhrzeitAnkunft.slice(3,5);
+	}
+
 	if(standort == "Lippstadt" && transport =="Bus"){
+
 		addDoc(collection(db, "Fahrplan_Bus_Lippstadt"), {
 			Buslinie: bus,
 			Haltestelle_Abfahrt_Name: haltestelleAbfahrt,
@@ -150,7 +162,7 @@ const creatFahrplanDoc = () =>{
 			TagTyp: tag,
 			Uhrzeit_Ankunft: uhrzeitAnkunft,
 			Uhrzeit_Einfahrt: uhrzeitEinfahrt,
-			id: id,
+			id: parseInt(id),
 			}).then((res) =>{
 		history.push("/fahrpläne");
 	});
@@ -163,7 +175,7 @@ const creatFahrplanDoc = () =>{
 			Haltestellen: haltestellen,
 			TagTyp: tag,
 			Uhrzeit_Einfahrt: uhrzeitEinfahrt,
-			id: id,
+			id: parseInt(id),
 			}).then((res) =>{
 		history.push("/fahrpläne");
 	});
@@ -173,9 +185,9 @@ const creatFahrplanDoc = () =>{
 			Haltestelle_Abfahrt_Name: haltestelleAbfahrt,
 			Haltestelle_Ankunft_Name: haltestelleEinfahrt,
 			TagTyp: tag,
-			Uhrzeit_Ankunft: uhrzeitAnkunft,
-			Uhrzeit_Einfahrt: uhrzeitEinfahrt,
-			id: id,
+			Uhrzeit_Ankunft: new Date(2021,11,3, ankunftStunde,ankunftMinuten),
+			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde,einfahrtMinuten),
+			id: parseInt(id),
 			}).then((res) =>{
 		history.push("/fahrpläne");
 	});
@@ -187,14 +199,13 @@ const creatFahrplanDoc = () =>{
 			Haltestelle_Ankunft_Name: haltestelleEinfahrt,
 			Haltestellen: haltestellen,
 			TagTyp: tag,
-			Uhrzeit_Einfahrt: uhrzeitEinfahrt,
-			id: id,
+			Uhrzeit_Einfahrt: new Date(2021,12,3, einfahrtStunde,einfahrtMinuten),
+			id: parseInt(id),
 			}).then((res) =>{
 		history.push("/fahrpläne");
 	});
 	}
 }
-
 
   return (
 	<>
@@ -250,13 +261,14 @@ const creatFahrplanDoc = () =>{
 				{transport == "Bus" ?
 
 				<Stack mt={4}>
-				{preview ? <p> id: {id}</p> : 									< Input id="input_id" placeholder="ID" defaultValue={id} /> }
-				{preview ? <p>bus: {bus}</p> : 										< Input id="input_bus" placeholder="Bus (z.B. R63)"  defaultValue={bus} /> }
+				{preview ? <p> id: {id}</p> : 									< Input type="number" id="input_id" placeholder="ID" defaultValue={id} /> }
+				{preview ? <p>bus: {bus}</p> : 										< Input id="input_bus"  placeholder="Bus (z.B. R63)"  defaultValue={bus} /> }
 				{preview ? <p>haltestelleAbfahrt: {haltestelleAbfahrt}</p> :			< Input id="input_haltestelleAbfahrt" placeholder="Haltestelle Abfahrt"  defaultValue={haltestelleAbfahrt} />}
 				{preview ? <p>haltestelleEinfahrt: {haltestelleEinfahrt}</p> :		< Input id="input_haltestelleEinfahrt" placeholder="Haltestelle Einfahrt"  defaultValue={haltestelleEinfahrt}/>}
 				{preview ? <p>uhrzeitEinfahrt: {uhrzeitEinfahrt}</p> :				< Input id="input_uhrzeitEinfahrt" placeholder="Uhrzeit Einfahrt" defaultValue={uhrzeitEinfahrt}/>}
 				{preview ? <p>uhrzeitAnkunft: {uhrzeitAnkunft}</p> :					< Input id="input_uhrzeitAnkunft" placeholder="Uhrzeit Ankunft" defaultValue={uhrzeitAnkunft} />}
 				</Stack>
+
 
 
 				:

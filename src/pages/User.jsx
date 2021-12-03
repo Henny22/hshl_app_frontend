@@ -55,7 +55,7 @@ useEffect(() => {
 
    <Layout>
       <Navbar />
-			<Heading>User Liste</Heading>
+			<Heading>Benutzer Liste</Heading>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
 			<div>
 <Table variant="simple">

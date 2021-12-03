@@ -66,6 +66,7 @@ export default function Fahrpläne() {
 
 	useEffect(() => {
 			const getCampusplan = async () => {
+
 				setcampusSelected('Lippstadt');
 				setBusSelected(true);
 
@@ -156,7 +157,7 @@ export default function Fahrpläne() {
       <Navbar />
 			<Heading>Fahrpläne Bus & Bahn</Heading>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
-
+<HStack spacing={10} >
 {campusSelected != "Lippstadt" ?
 			<Button
       type='submit'
@@ -178,8 +179,9 @@ export default function Fahrpläne() {
     	</Button>
 		}
 		<Link to={`/fahrpläne_erstellen`}>
-		<IconButton  icon={<AddIcon />} />
+		<IconButton icon={<AddIcon />} />
 		</Link>
+	</HStack>
 
 		{campusSelected == 'Lippstadt' ?
 		<Table variant="simple" >

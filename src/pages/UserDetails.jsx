@@ -86,7 +86,7 @@ useEffect(() => {
 
    <Layout>
       <Navbar />
-			<Heading>	<IconButton icon={<ArrowBackIcon /> } onClick={() => history.goBack()}/> User Details</Heading>
+			<Heading>	<IconButton icon={<ArrowBackIcon /> } onClick={() => history.goBack()}/> Benutzer Details</Heading>
       {/* <Text my={6}>{currentUser?.email}</Text> */}
 			<div>
 			<Center py={6}>
