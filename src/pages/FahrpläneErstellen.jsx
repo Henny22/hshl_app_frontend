@@ -1,4 +1,4 @@
-import {
+	import {
   Badge,
   chakra,
   Code,
@@ -87,7 +87,7 @@ const handleChange_check = (event) => {
 	setStandort(document.getElementById("select_standort").value)
 	setTransport(document.getElementById("select_transport").value)
 	setTag(document.getElementById("select_tag").value)
-	setID(document.getElementById("input_id").value)
+
 
 
 	if(transport == "Bus"){
@@ -122,7 +122,7 @@ const resetForm = (event) => {
 	setUhrzeitAnkunft("")
 	setHaltstellen("")
 
-		document.getElementById("input_id").value = "";
+
 
 		if(transport == "Bus"){
 		document.getElementById("input_bus").value = "";
@@ -160,11 +160,10 @@ const creatFahrplanDoc = () =>{
 			Haltestelle_Abfahrt_Name: haltestelleAbfahrt,
 			Haltestelle_Ankunft_Name: haltestelleEinfahrt,
 			TagTyp: tag,
-			Uhrzeit_Ankunft: uhrzeitAnkunft,
-			Uhrzeit_Einfahrt: uhrzeitEinfahrt,
-			id: parseInt(id),
+			Uhrzeit_Ankunft: new Date(2021,11,3, ankunftStunde,ankunftMinuten),
+			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde,einfahrtMinuten),
 			}).then((res) =>{
-		history.push("/fahrpläne");
+		history.push("/fahrpläne_erstellen");
 	});
 	} else if (standort == "Lippstadt" && transport =="Bahn"){
 			addDoc(collection(db, "Fahrplan_Zug_Lippstadt"), {
@@ -174,10 +173,9 @@ const creatFahrplanDoc = () =>{
 			Haltestelle_Ankunft_Name: haltestelleEinfahrt,
 			Haltestellen: haltestellen,
 			TagTyp: tag,
-			Uhrzeit_Einfahrt: uhrzeitEinfahrt,
-			id: parseInt(id),
+			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde, einfahrtMinuten),
 			}).then((res) =>{
-		history.push("/fahrpläne");
+		history.push("/fahrpläne_erstellen");
 	});
 	}	else if (standort == "Hamm" && transport =="Bus"){
 			addDoc(collection(db, "Fahrplan_Bus_Hamm"), {
@@ -187,9 +185,8 @@ const creatFahrplanDoc = () =>{
 			TagTyp: tag,
 			Uhrzeit_Ankunft: new Date(2021,11,3, ankunftStunde,ankunftMinuten),
 			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde,einfahrtMinuten),
-			id: parseInt(id),
 			}).then((res) =>{
-		history.push("/fahrpläne");
+		history.push("/fahrpläne_erstellen");
 	});
 	} else if (standort == "Hamm" && transport =="Bahn"){
 			addDoc(collection(db, "Fahrplan_Zug_Hamm"), {
@@ -199,10 +196,9 @@ const creatFahrplanDoc = () =>{
 			Haltestelle_Ankunft_Name: haltestelleEinfahrt,
 			Haltestellen: haltestellen,
 			TagTyp: tag,
-			Uhrzeit_Einfahrt: new Date(2021,12,3, einfahrtStunde,einfahrtMinuten),
-			id: parseInt(id),
+			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde,einfahrtMinuten),
 			}).then((res) =>{
-		history.push("/fahrpläne");
+		history.push("/fahrpläne_erstellen");
 	});
 	}
 }
@@ -261,7 +257,6 @@ const creatFahrplanDoc = () =>{
 				{transport == "Bus" ?
 
 				<Stack mt={4}>
-				{preview ? <p> id: {id}</p> : 									< Input type="number" id="input_id" placeholder="ID" defaultValue={id} /> }
 				{preview ? <p>bus: {bus}</p> : 										< Input id="input_bus"  placeholder="Bus (z.B. R63)"  defaultValue={bus} /> }
 				{preview ? <p>haltestelleAbfahrt: {haltestelleAbfahrt}</p> :			< Input id="input_haltestelleAbfahrt" placeholder="Haltestelle Abfahrt"  defaultValue={haltestelleAbfahrt} />}
 				{preview ? <p>haltestelleEinfahrt: {haltestelleEinfahrt}</p> :		< Input id="input_haltestelleEinfahrt" placeholder="Haltestelle Einfahrt"  defaultValue={haltestelleEinfahrt}/>}
@@ -274,7 +269,6 @@ const creatFahrplanDoc = () =>{
 				:
 
 				<Stack mt={4}>
-					{preview ? <p> id: {id}</p> : < Input id="input_id" placeholder="ID" defaultValue={id} /> }
 					{preview ? <p> Zug: {zug}</p> : < Input id="input_zug" placeholder="Zug (z.B. RB 89)" defaultValue={zug}/>}
 					{preview ? <p> Gleis: {gleis}</p> : < Input id="input_gleis" placeholder="Gleis" defaultValue={gleis}/>}
 				{preview ? <p> HaltestelleAbfahrt: {haltestelleAbfahrt}</p> : 	< Input id="input_haltestelleAbfahrt" placeholder="Haltestelle Abfahrt" defaultValue={haltestelleAbfahrt}/>}

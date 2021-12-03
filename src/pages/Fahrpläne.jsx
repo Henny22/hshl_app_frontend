@@ -81,10 +81,10 @@ export default function Fahrpläne() {
 				const dataLippstadtL3 = await getDocs(campusplanLippstadtL3CollectionQuery);
 				const dataLippstadtL4 = await getDocs(campusplanLippstadtL4CollectionQuery);
 
-				setFahrplanBusLippstadt(dataLippstadtL1.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-				setFahrplanZugLippstadt(dataLippstadtL2.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-				setFahrplanBusHamm(dataLippstadtL3.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-				setFahrplanZugHamm(dataLippstadtL4.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+				setFahrplanBusLippstadt(dataLippstadtL1.docs.map((doc) => ({ ...doc.data() })));
+				setFahrplanZugLippstadt(dataLippstadtL2.docs.map((doc) => ({ ...doc.data() })));
+				setFahrplanBusHamm(dataLippstadtL3.docs.map((doc) => ({ ...doc.data()})));
+				setFahrplanZugHamm(dataLippstadtL4.docs.map((doc) => ({ ...doc.data()})));
 			};
 
 			getCampusplan();
@@ -200,8 +200,8 @@ export default function Fahrpläne() {
 																							<tr key={fahrplanBusLippstadt.id  }>
 																									<td align="left" >{fahrplanBusLippstadt.Buslinie  }</td>
 																									<td align="left">{fahrplanBusLippstadt.TagTyp }</td>
-																									<td align="left">{fahrplanBusLippstadt.Uhrzeit_Einfahrt }</td>
-																									<td align="left">{fahrplanBusLippstadt.Uhrzeit_Ankunft }</td>
+																									<td align="left">{new Date(fahrplanBusLippstadt.Uhrzeit_Einfahrt.toDate()).toString() }</td>
+																									<td align="left">{new Date(fahrplanBusLippstadt.Uhrzeit_Ankunft.toDate()).toString() }</td>
 																									<td align="left">
 
 																												<HStack  spacing='2'>
@@ -236,8 +236,8 @@ export default function Fahrpläne() {
 																							<tr key={fahrplanBusHamm.id  }>
 																									<td align="left" >{fahrplanBusHamm.Buslinie  }</td>
 																									<td align="left">{fahrplanBusHamm.TagTyp }</td>
-																									<td align="left">{fahrplanBusHamm.Uhrzeit_Einfahrt }</td>
-																									<td align="left">{fahrplanBusHamm.Uhrzeit_Ankunft }</td>
+																									<td align="left">{new Date(fahrplanBusHamm.Uhrzeit_Einfahrt.toDate()).toString() }</td>
+																									<td align="left">{new Date(fahrplanBusHamm.Uhrzeit_Ankunft.toDate()).toString() }</td>
 																									<td align="left">
 
 																												<HStack  spacing='2'>
@@ -273,7 +273,7 @@ export default function Fahrpläne() {
 																									<td align="left" >{fahrplanZugLippstadt.Zug  }</td>
 																									<td align="left">{fahrplanZugLippstadt.Gleis }</td>
 																									<td align="left">{fahrplanZugLippstadt.TagTyp }</td>
-																									<td align="left">{fahrplanZugLippstadt.Uhrzeit_Einfahrt }</td>
+																									<td align="left">{new Date(fahrplanZugLippstadt.Uhrzeit_Einfahrt.toDate()).toString() }</td>
 																									<td align="left">
 
 																												<HStack  spacing='2'>
@@ -308,7 +308,7 @@ export default function Fahrpläne() {
 																									<td align="left" >{fahrplanZugHamm.Zug }</td>
 																									<td align="left">{fahrplanZugHamm.Gleis }</td>
 																									<td align="left">{fahrplanZugHamm.TagTyp }</td>
-																									<td align="left">{fahrplanZugHamm.Uhrzeit_Einfahrt }</td>
+																									<td align="left">{new Date(fahrplanZugHamm.Uhrzeit_Einfahrt.toDate()).toString() }</td>
 																									<td align="left">
 
 																												<HStack  spacing='2'>
