@@ -140,6 +140,40 @@ const resetForm = (event) => {
 		}
 }
 
+const setBusLippstadtForm = () => {
+	document.getElementById("select_standort").value = "Lippstadt"
+	setStandort("Lippstadt")
+	setHaltestelleAbfahrt("Hochschule/HBPO");
+	setHaltestelleEinfahrt("Bahnhof");
+	setTransport("Bus")
+	document.getElementById("select_transport").value ="Bus"
+}
+
+const setZugLippstadtForm = () => {
+	document.getElementById("select_standort").value = "Lippstadt"
+	setStandort("Lippstadt")
+	setHaltestelleAbfahrt("Lippstadt Hbf");
+	document.getElementById("select_transport").value ="Bahn"
+	setTransport("Bahn")
+}
+
+const setBusHammForm = () => {
+	document.getElementById("select_standort").value = "Hamm"
+	setStandort("Hamm")
+	setHaltestelleAbfahrt("Hochschule Hamm-Lippstadt");
+	setHaltestelleEinfahrt("Hamm (Westf.) Hbf");
+	setTransport("Bus")
+	document.getElementById("select_transport").value ="Bus"
+}
+
+const setZugHammForm = () => {
+	document.getElementById("select_standort").value = "Hamm"
+	setStandort("Hamm")
+	setHaltestelleAbfahrt("Hamm(Westf)Hbf ");
+	setTransport("Bahn")
+	document.getElementById("select_transport").value ="Bahn"
+}
+
 
 const creatFahrplanDoc = () =>{
 
@@ -163,7 +197,7 @@ const creatFahrplanDoc = () =>{
 			Uhrzeit_Ankunft: new Date(2021,11,3, ankunftStunde,ankunftMinuten),
 			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde,einfahrtMinuten),
 			}).then((res) =>{
-		history.push("/fahrpläne_erstellen");
+		window.location.reload(false);
 	});
 	} else if (standort == "Lippstadt" && transport =="Bahn"){
 			addDoc(collection(db, "Fahrplan_Zug_Lippstadt"), {
@@ -175,7 +209,7 @@ const creatFahrplanDoc = () =>{
 			TagTyp: tag,
 			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde, einfahrtMinuten),
 			}).then((res) =>{
-		history.push("/fahrpläne_erstellen");
+		window.location.reload(false);
 	});
 	}	else if (standort == "Hamm" && transport =="Bus"){
 			addDoc(collection(db, "Fahrplan_Bus_Hamm"), {
@@ -186,7 +220,7 @@ const creatFahrplanDoc = () =>{
 			Uhrzeit_Ankunft: new Date(2021,11,3, ankunftStunde,ankunftMinuten),
 			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde,einfahrtMinuten),
 			}).then((res) =>{
-		history.push("/fahrpläne_erstellen");
+		window.location.reload(false);
 	});
 	} else if (standort == "Hamm" && transport =="Bahn"){
 			addDoc(collection(db, "Fahrplan_Zug_Hamm"), {
@@ -198,7 +232,7 @@ const creatFahrplanDoc = () =>{
 			TagTyp: tag,
 			Uhrzeit_Einfahrt: new Date(2021,11,3, einfahrtStunde,einfahrtMinuten),
 			}).then((res) =>{
-		history.push("/fahrpläne_erstellen");
+		window.location.reload(false);
 	});
 	}
 }
@@ -211,6 +245,28 @@ const creatFahrplanDoc = () =>{
       {/* <Text my={6}>{currentUser?.email}</Text> */}
 
 			<Center py={6}>
+			<Stack>
+			<Button
+      type='submit'
+      colorScheme='pink'
+      size='lg'
+      fontSize='md'
+			onClick={() => setBusLippstadtForm() }
+			>
+      Einträge Bus Lippstadt
+   		 </Button>
+	<Button
+      type='submit'
+      colorScheme='pink'
+      size='lg'
+      fontSize='md'
+			onClick={() => setZugLippstadtForm() }
+			>
+      Einträge Bahn Lippstadt
+   		 </Button>
+</Stack>
+
+
       <Box
         maxW={'445px'}
         w={'full'}
@@ -281,6 +337,26 @@ const creatFahrplanDoc = () =>{
 				}
 
 			</Box>
+<Stack>
+	<Button
+      type='submit'
+      colorScheme='pink'
+      size='lg'
+      fontSize='md'
+			onClick={() => setBusHammForm() }
+			>
+      Einträge Bus Hamm
+   		 </Button>
+<Button
+      type='submit'
+      colorScheme='pink'
+      size='lg'
+      fontSize='md'
+			onClick={() => setZugHammForm() }
+			>
+      Einträge Bahn Hamm
+   		 </Button>
+</Stack>
 			</Center>
     </Layout>
 		</>
